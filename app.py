@@ -500,12 +500,16 @@ def handle_message(event):
                     text='開始玩'
                 ),
                 URITemplateAction(
-                    label='TS BGM for study Music',
-                    uri='https://www.youtube.com/playlist?list=PLBmb23Me7LzaA2QSvhRLPMNExF_TP4Z6h'
+                    label='影片介紹 阿肥bot',
+                    uri='https://youtu.be/1IxtWgWxtlE'
                 ),
                 URITemplateAction(
-                    label='TS Maneger',
-                    uri='https://www.facebook.com/profile.php?id=100002675012000'
+                    label='如何建立自己的 Line Bot',
+                    uri='https://github.com/twtrubiks/line-bot-tutorial'
+                ),
+                URITemplateAction(
+                    label='聯絡作者',
+                    uri='https://www.facebook.com/TWTRubiks?ref=bookmarks'
                 )
             ]
         )
