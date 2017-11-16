@@ -366,7 +366,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "開始玩":
+    if event.message.text == "Go":
         buttons_template = TemplateSendMessage(
             alt_text='開始玩 template',
             template=ButtonsTemplate(
@@ -489,27 +489,23 @@ def handle_message(event):
         return 0
 
     buttons_template = TemplateSendMessage(
-        alt_text='目錄 template',
+        alt_text='目錄',
         template=ButtonsTemplate(
             title='選擇服務',
             text='請選擇',
             thumbnail_image_url='https://1.bp.blogspot.com/-0E4u9O1GPvY/WDuheSWu7xI/AAAAAAALjNc/oD5FVffdIRQGcIj5e0I8mHsnJDdVu3xCACLcB/s1600/AS001452_14.gif',
             actions=[
                 MessageTemplateAction(
-                    label='開始玩',
-                    text='開始玩'
+                    label='TS Door',
+                    text='Go'
                 ),
                 URITemplateAction(
-                    label='影片介紹 阿肥bot',
-                    uri='https://youtu.be/1IxtWgWxtlE'
+                    label='TS BGM for study Music',
+                    uri='https://www.youtube.com/playlist?list=PLBmb23Me7LzaA2QSvhRLPMNExF_TP4Z6h'
                 ),
                 URITemplateAction(
-                    label='如何建立自己的 Line Bot',
-                    uri='https://github.com/twtrubiks/line-bot-tutorial'
-                ),
-                URITemplateAction(
-                    label='聯絡作者',
-                    uri='https://www.facebook.com/TWTRubiks?ref=bookmarks'
+                    label='TS Maneger',
+                    uri='https://www.facebook.com/profile.php?id=100002675012000&ref=bookmarks'
                 )
             ]
         )
