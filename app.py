@@ -15,12 +15,11 @@ from linebot.exceptions import (
 from linebot.models import *
 
 app = Flask(__name__)
-config = configparser.ConfigParser()
-config.read("config.ini")
 
-line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
-handler = WebhookHandler(config['line_bot']['Channel_Secret'])
-API_Get_Image = config['other_api']['API_Get_Image']
+
+line_bot_api = LineBotApi("nCa+Xtf8NEZEzmo/PVbgg4nYDcn9poYLZaVKqUpvpex/bkvre9n0k1GEeTEbXQ+EuVCNFhTFiv3XeQqGo7XxXaQxSp2Ki3mDG1HzXxe0QAr79tLvxFSuRBc2w87L2dL3WRfWnV88GeUHvh5AXsv29gdB04t89/1O/w1cDnyilFU=")
+handler = WebhookHandler("7402a448e8ef19c862d23e2d813a9846")
+
 
 
 @app.route('/')
