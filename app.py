@@ -496,16 +496,20 @@ def handle_message(event):
             thumbnail_image_url='https://1.bp.blogspot.com/-0E4u9O1GPvY/WDuheSWu7xI/AAAAAAALjNc/oD5FVffdIRQGcIj5e0I8mHsnJDdVu3xCACLcB/s1600/AS001452_14.gif',
             actions=[
                 MessageTemplateAction(
-                    label='TS Door',
-                    text='Go'
+                    label='開始玩',
+                    text='開始玩'
                 ),
                 URITemplateAction(
                     label='TS BGM for study Music',
                     uri='https://www.youtube.com/playlist?list=PLBmb23Me7LzaA2QSvhRLPMNExF_TP4Z6h'
                 ),
                 URITemplateAction(
-                    label='TS Maneger',
-                    uri='https://www.facebook.com/profile.php?id=100002675012000&ref=bookmarks'
+                    label='如何建立自己的 Line Bot',
+                    uri='https://github.com/twtrubiks/line-bot-tutorial'
+                ),
+                URITemplateAction(
+                    label='聯絡作者',
+                    uri='https://www.facebook.com/TWTRubiks?ref=bookmarks'
                 )
             ]
         )
