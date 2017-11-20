@@ -204,7 +204,7 @@ def ptt_gossiping():
 def ptt_beauty():
     
    
-    
+    content = ''
 
     return content
 
