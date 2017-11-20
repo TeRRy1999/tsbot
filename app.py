@@ -193,37 +193,36 @@ def ptt_gossiping():
 
 
 def ptt_beauty():
-    rs = requests.session()
-    res = rs.get('https://www.ptt.cc/bbs/Beauty/index.html', verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    all_page_url = soup.select('.btn.wide')[1]['href']
-    start_page = get_page_number(all_page_url)
-    page_term = 2  # crawler count
-    push_rate = 10  # 推文
-    index_list = []
-    article_list = []
-    for page in range(start_page, start_page - page_term, -1):
-        page_url = 'https://www.ptt.cc/bbs/Beauty/index{}.html'.format(page)
-        index_list.append(page_url)
+    
+   
+    driver = webdriver.Chrome()
+	driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
 
-    # 抓取 文章標題 網址 推文數
-    while index_list:
-        index = index_list.pop(0)
-        res = rs.get(index, verify=False)
-        # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
-        if res.status_code != 200:
-            index_list.append(index)
-            # print u'error_URL:',index
-            # time.sleep(1)
-        else:
-            article_list = craw_page(res, push_rate)
-            # print u'OK_URL:', index
-            # time.sleep(0.05)
-    content = ''
-    for article in article_list:
-        data = '[{} push] {}\n{}\n\n'.format(article.get('rate', None), article.get('title', None),
-                                             article.get('url', None))
-        content += data
+
+	elem = driver.find_element_by_name("Txt_UserID")
+	elem.clear()
+	elem.send_keys(input("Plese type yout account: "))
+
+
+	password = driver.find_element_by_name("Txt_Password")
+	password.clear()
+	password.send_keys(getpass.getpass('And your password: '))
+
+
+	btn = driver.find_element_by_name("ibnSubmit")
+	btn.click()
+
+	wait = WebDriverWait(driver, 2)
+	wait.until(lambda driver: driver.current_url != "https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+
+
+	aTagsInLi = driver.find_elements_by_css_selector('div')
+
+ 	content = ''
+	for a in aTagsInLi:
+	     if "待辦提醒" in a.text:
+	     	content += a.text
+
     return content
 
 
@@ -308,7 +307,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "PTT 表特版 近期大於 10 推的文章":
+    if event.message.text == "portal 待辦提醒":
         content = ptt_beauty()
         line_bot_api.reply_message(
             event.reply_token,
