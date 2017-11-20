@@ -204,7 +204,7 @@ def ptt_beauty():
     
    
     driver = webdriver.Chrome()
-	driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+	driver.get('https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx')
 
 
 	elem = driver.find_element_by_name("Txt_UserID")
