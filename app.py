@@ -192,40 +192,6 @@ def ptt_gossiping():
     return content
 
 
-def ptt_beauty():
-    
-   
-    driver = webdriver.Chrome()
-	driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
-
-
-	elem = driver.find_element_by_name("Txt_UserID")
-	elem.clear()
-	elem.send_keys(input("Plese type yout account: "))
-
-
-	password = driver.find_element_by_name("Txt_Password")
-	password.clear()
-	password.send_keys(getpass.getpass('And your password: '))
-
-
-	btn = driver.find_element_by_name("ibnSubmit")
-	btn.click()
-
-	wait = WebDriverWait(driver, 2)
-	wait.until(lambda driver: driver.current_url != "https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
-
-
-	aTagsInLi = driver.find_elements_by_css_selector('div')
-
- 	content = ''
-	for a in aTagsInLi:
-	     if "待辦提醒" in a.text:
-	     	content += a.text
-
-    return content
-
-
 def ptt_hot():
     target_url = 'http://disp.cc/b/PttHot'
     print('Start parsing pttHot....')
@@ -313,28 +279,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "來張 imgur 正妹圖片":
-        client = ImgurClient(client_id, client_secret)
-        images = client.get_album_images(album_id)
-        index = random.randint(0, len(images) - 1)
-        url = images[index].link
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        line_bot_api.reply_message(
-            event.reply_token, image_message)
-        return 0
-    if event.message.text == "隨便來張正妹圖片":
-        image = requests.get(API_Get_Image)
-        url = image.json().get('Url')
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        line_bot_api.reply_message(
-            event.reply_token, image_message)
-        return 0
+
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
         line_bot_api.reply_message(
