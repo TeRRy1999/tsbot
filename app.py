@@ -73,7 +73,6 @@ def eyny_movie():
             content += data
     return content
 
-
 def apple_news():
     target_url = 'http://www.appledaily.com.tw/realtimenews/section/new/'
     head = 'http://www.appledaily.com.tw'
