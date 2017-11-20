@@ -193,37 +193,35 @@ def ptt_gossiping():
 
 
 def ptt_beauty():
-    rs = requests.session()
-    res = rs.get('https://www.ptt.cc/bbs/Beauty/index.html', verify=False)
-    soup = BeautifulSoup(res.text, 'html.parser')
-    all_page_url = soup.select('.btn.wide')[1]['href']
-    start_page = get_page_number(all_page_url)
-    page_term = 2  # crawler count
-    push_rate = 10  # 推文
-    index_list = []
-    article_list = []
-    for page in range(start_page, start_page - page_term, -1):
-        page_url = 'https://www.ptt.cc/bbs/Beauty/index{}.html'.format(page)
-        index_list.append(page_url)
+    
+   
+    driver = webdriver.Chrome()
+	driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
 
-    # 抓取 文章標題 網址 推文數
-    while index_list:
-        index = index_list.pop(0)
-        res = rs.get(index, verify=False)
-        # 如網頁忙線中,則先將網頁加入 index_list 並休息1秒後再連接
-        if res.status_code != 200:
-            index_list.append(index)
-            # print u'error_URL:',index
-            # time.sleep(1)
-        else:
-            article_list = craw_page(res, push_rate)
-            # print u'OK_URL:', index
-            # time.sleep(0.05)
-    content = ''
-    for article in article_list:
-        data = '[{} push] {}\n{}\n\n'.format(article.get('rate', None), article.get('title', None),
-                                             article.get('url', None))
-        content += data
+
+	elem = driver.find_element_by_name("Txt_UserID")
+	elem.clear()
+	elem.send_keys(input("Plese type yout account: "))
+
+
+	password = driver.find_element_by_name("Txt_Password")
+	password.clear()
+	password.send_keys(getpass.getpass('And your password: '))
+
+
+	btn = driver.find_element_by_name("ibnSubmit")
+	btn.click()
+
+	wait = WebDriverWait(driver, 2)
+	wait.until(lambda driver: driver.current_url != "https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+
+
+	aTagsInLi = driver.find_elements_by_css_selector('div')
+ 	content = ''
+
+	for a in aTagsInLi:
+	     if "待辦提醒" in a.text:
+	     	content += a.text
     return content
 
 
@@ -313,28 +311,6 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
-        return 0
-    if event.message.text == "來張 imgur 正妹圖片":
-        client = ImgurClient(client_id, client_secret)
-        images = client.get_album_images(album_id)
-        index = random.randint(0, len(images) - 1)
-        url = images[index].link
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        line_bot_api.reply_message(
-            event.reply_token, image_message)
-        return 0
-    if event.message.text == "隨便來張正妹圖片":
-        image = requests.get(API_Get_Image)
-        url = image.json().get('Url')
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        line_bot_api.reply_message(
-            event.reply_token, image_message)
         return 0
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
@@ -496,7 +472,7 @@ def handle_message(event):
             thumbnail_image_url='https://1.bp.blogspot.com/-0E4u9O1GPvY/WDuheSWu7xI/AAAAAAALjNc/oD5FVffdIRQGcIj5e0I8mHsnJDdVu3xCACLcB/s1600/AS001452_14.gif',
             actions=[
                 MessageTemplateAction(
-                	
+
                     label='開始玩',
                     text='開始玩'
                 ),
