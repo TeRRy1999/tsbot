@@ -5,14 +5,7 @@ import configparser
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-import time
-import os
-import requests
-import  json
-import csv
-import getpass
+
 
 from linebot import (
     LineBotApi, WebhookHandler
