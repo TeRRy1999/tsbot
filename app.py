@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 import time
 import os
 import requests
@@ -29,6 +28,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi("nCa+Xtf8NEZEzmo/PVbgg4nYDcn9poYLZaVKqUpvpex/bkvre9n0k1GEeTEbXQ+EuVCNFhTFiv3XeQqGo7XxXaQxSp2Ki3mDG1HzXxe0QAr79tLvxFSuRBc2w87L2dL3WRfWnV88GeUHvh5AXsv29gdB04t89/1O/w1cDnyilFU=")
 handler = WebhookHandler("7402a448e8ef19c862d23e2d813a9846")
+
 
 
 
@@ -202,7 +202,7 @@ def ptt_gossiping():
 
 
 def ptt_beauty():
-    driver = webdriver.Chrome()
+    driver = webdriver.PhantomJS()
 	driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
 
 
