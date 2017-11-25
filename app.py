@@ -298,6 +298,56 @@ def panx():
 def handle_message(event):
     print("event.reply_token:", event.reply_token)
     print("event.message.text:", event.message.text)
+
+    if event.message.text[0] == ">":
+        account_input = event.message.text[0:8]
+        password_input = event.message.text[9:]
+        driver = webdriver.PhantomJS()
+        driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+
+
+        elem = driver.find_element_by_name("Txt_UserID")
+        elem.clear()
+        elem.send_keys(account_input)
+
+
+        password = driver.find_element_by_name("Txt_Password")
+        password.clear()
+        password.send_keys(password_input)
+
+
+        btn = driver.find_element_by_name("ibnSubmit")
+        btn.click()
+
+        wait = WebDriverWait(driver, 2)
+        wait.until(lambda driver: driver.current_url != "https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+
+
+        aTagsInLi = driver.find_elements_by_css_selector('div')
+
+        content = ""
+        
+        try:
+            for a in aTagsInLi:
+            if "待辦提醒" in a.text:
+                content += a.text
+        
+        except:
+            content = "Can't login,please check your imformation"
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=content))
+        return 0
+
+    if event.message.text == "查作業~":
+        content = "請輸入你的帳號和密碼(以>開頭ex:>s1041509a12345678)帳號密碼需連在一起~\n我只會英文，哈哈"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        isQuestion = 1
+        return 0
+
+
     if event.message.text == "eyny":
         content = eyny_movie()
         line_bot_api.reply_message(
@@ -310,7 +360,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if event.message.text == "PTT 表特版 近期大於 10 推的文章":
+    if event.message.text == "查作業~":
         content = ptt_beauty()
         line_bot_api.reply_message(
             event.reply_token,
@@ -451,8 +501,8 @@ def handle_message(event):
                 thumbnail_image_url='https://i.imgur.com/qKkE2bj.jpg',
                 actions=[
                     MessageTemplateAction(
-                        label='PTT 表特版 近期大於 10 推的文章',
-                        text='PTT 表特版 近期大於 10 推的文章'
+                        label='查作業~',
+                        text='查作業~'
                     ),
                     MessageTemplateAction(
                         label='來張 imgur 正妹圖片',
