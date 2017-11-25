@@ -8,7 +8,6 @@ from imgurpython import ImgurClient
 from selenium import webdriver
 import time
 import os
-import requests
 import  json
 import csv
 import getpass
