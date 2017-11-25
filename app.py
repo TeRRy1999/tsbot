@@ -300,7 +300,7 @@ def handle_message(event):
     print("event.message.text:", event.message.text)
 
     if event.message.text[0] == ">":
-        account_input = event.message.text[0:8]
+        account_input = event.message.text[1:9]
         print (account_input)
         password_input = event.message.text[9:]
         print (password_input)
