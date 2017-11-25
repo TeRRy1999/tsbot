@@ -2,7 +2,6 @@ import re
 import random
 import configparser
 from flask import Flask, request, abort
-from imgurpython import ImgurClient
 from selenium import webdriver
 import time
 import os
