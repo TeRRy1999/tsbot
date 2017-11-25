@@ -4,6 +4,7 @@ import configparser
 from flask import Flask, request, abort
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from bs4 import BeautifulSoup
 import time
 import os
 import  json
