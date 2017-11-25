@@ -200,32 +200,32 @@ def ptt_gossiping():
 
 def ptt_beauty():
     driver = webdriver.PhantomJS()
-	driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+    driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
 
 
-	elem = driver.find_element_by_name("Txt_UserID")
-	elem.clear()
-	elem.send_keys(s1041517)
+    elem = driver.find_element_by_name("Txt_UserID")
+    elem.clear()
+    elem.send_keys('s1041509')
 
 
-	password = driver.find_element_by_name("Txt_Password")
-	password.clear()
-	password.send_keys(ji3g4w96284bp6)
+    password = driver.find_element_by_name("Txt_Password")
+    password.clear()
+    password.send_keys('e2345678')
 
 
-	btn = driver.find_element_by_name("ibnSubmit")
-	btn.click()
+    btn = driver.find_element_by_name("ibnSubmit")
+    btn.click()
 
-	wait = WebDriverWait(driver, 2)
-	wait.until(lambda driver: driver.current_url != "https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
+    wait = WebDriverWait(driver, 2)
+    wait.until(lambda driver: driver.current_url != "https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
 
 
-	aTagsInLi = driver.find_elements_by_css_selector('div')
+    aTagsInLi = driver.find_elements_by_css_selector('div')
 
-	content = ''
-	for a in aTagsInLi:
-	     if "待辦提醒" in a.text:
-	     	content += a.text
+    content = ""
+    for a in aTagsInLi:
+        if "待辦提醒" in a.text:
+            content += a.text 
     return content
 
 
