@@ -327,12 +327,13 @@ def handle_message(event):
 
         content = ""
         
-       
-        for a in aTagsInLi:
-        if "待辦提醒" in a.text:
-            content += a.text + '<br>'
+        try:
+            for a in aTagsInLi:
+                if "待辦提醒" in a.text:
+                    content += a.text
         
-        
+        except:
+            content = "Can't login,please check your imformation"
         line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
