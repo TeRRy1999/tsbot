@@ -301,7 +301,9 @@ def handle_message(event):
 
     if event.message.text[0] == ">":
         account_input = event.message.text[0:8]
+        print (account_input)
         password_input = event.message.text[9:]
+        print (password_input)
         driver = webdriver.PhantomJS()
         driver.get("https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx")
 
@@ -334,7 +336,7 @@ def handle_message(event):
         
         except:
             content = "Can't login,please check your imformation"
-            
+
         line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=content))
