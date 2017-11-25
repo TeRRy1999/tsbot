@@ -299,6 +299,22 @@ def handle_message(event):
     print("event.reply_token:", event.reply_token)
     print("event.message.text:", event.message.text)
 
+    if event.message.text[0] == "@":
+        questions = event.message.text[1:]
+        url = 'https://www.evi.com/q/' + questions
+        response = requests.get(url)
+        bsObj = BeautifulSoup(response.text,'html.parser')
+        try:
+            str = (bsObj.find("div", {"class":"tk_common"})).get_text()
+            content = str[98:len(str)-39]
+        except:
+            content = "Sorry, I don't yet have an answer to that question."
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=content))
+
+
+
     if event.message.text[0] == ">":
         account_input = event.message.text[1:9]
         print (account_input)
@@ -332,7 +348,7 @@ def handle_message(event):
         try:
             for a in aTagsInLi:
                 if "待辦提醒" in a.text:
-                    content += a.text + '<br>'
+                    content += a.text
         
         except:
             content = "Can't login,please check your imformation"
@@ -369,6 +385,25 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+
+
+
+
+    if event.message.text == "你問我答":
+        content = "請輸入你的問題(In English，以@開頭)\n我只會英文，哈哈"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        isQuestion = 1
+        return 0
+
+    if event.message.text == "我們是誰":
+        content = "我們是邱佳震、李泳誼、張皓儒"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
+
     if event.message.text == "近期熱門廢文":
         content = ptt_hot()
         line_bot_api.reply_message(
@@ -530,21 +565,20 @@ def handle_message(event):
             thumbnail_image_url='https://1.bp.blogspot.com/-0E4u9O1GPvY/WDuheSWu7xI/AAAAAAALjNc/oD5FVffdIRQGcIj5e0I8mHsnJDdVu3xCACLcB/s1600/AS001452_14.gif',
             actions=[
                 MessageTemplateAction(
-
                     label='開始玩',
                     text='開始玩'
                 ),
-                URITemplateAction(
-                    label='影片介紹 阿肥bot',
-                    uri='https://youtu.be/1IxtWgWxtlE'
+                MessageTemplateAction(
+                    label='我們是誰',
+                    text='我們是誰'
+                ),
+                MessageTemplateAction(
+                    label='你問我答',
+                    text='你問我答'
                 ),
                 URITemplateAction(
-                    label='如何建立自己的 Line Bot',
-                    uri='https://github.com/twtrubiks/line-bot-tutorial'
-                ),
-                URITemplateAction(
-                    label='聯絡作者',
-                    uri='https://www.facebook.com/TWTRubiks?ref=bookmarks'
+                    label='放鬆一下',
+                    uri='https://www.youtube.com/watch?v=SV-1S98c0UI'
                 )
             ]
         )
