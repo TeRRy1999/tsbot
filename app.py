@@ -130,6 +130,43 @@ def handle_message(event):
         isQuestion = 1
         return 0
 
+    if event.message.text.find('Y<<') != -1:
+        data = []
+        data.append(["", "", "", "", ""])
+        data.append(["", "", "", "", ""])
+        youtube_search(event.message.text, data)
+        
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(
+                text=data[0][0],
+                actions=[ URITemplateAction(label = 'Watch it !!', uri = data[1][0]) ]
+            ),
+            CarouselColumn(
+                text=data[0][1],
+                actions=[ URITemplateAction(label = 'Watch it !!', uri = data[1][1]) ]
+            ),
+            CarouselColumn(
+                text=data[0][2],
+                actions=[ URITemplateAction(label = 'Watch it !!', uri = data[1][2]) ]
+            ),
+            CarouselColumn(
+                text=data[0][3],
+                actions=[ URITemplateAction(label = 'Watch it !!', uri = data[1][3]) ]
+            ),
+            CarouselColumn(
+                text=data[0][4],
+                actions=[ URITemplateAction(label = 'Watch it !!', uri = data[1][4]) ]
+            ),            
+        ])
+        template_message = TemplateSendMessage(
+            alt_text='Carousel alt text', template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+
+
+ # input search query ----> return string
+
+    
+
 
     if event.message.text == "查作業~":
         content = ptt_beauty()
@@ -153,7 +190,12 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-
+    if event.message.text == "我想在youtube查歌~~!!!!":
+        content = "請輸入Y<<(想要搜尋的歌名~~)"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
     
     
     
@@ -178,6 +220,10 @@ def handle_message(event):
                     label='你問我答',
                     text='你問我答'
                 ),
+                MessageTemplateAction(
+                    label='我想在youtube查歌~~!!!!',
+                    text='我想在youtube查歌~~!!!!'
+                ),
                 URITemplateAction(
                     label='放鬆一下',
                     uri='https://www.youtube.com/watch?v=SV-1S98c0UI'
@@ -186,6 +232,27 @@ def handle_message(event):
         )
     )
     line_bot_api.reply_message(event.reply_token, buttons_template)
+
+
+def youtube_search(text, redata): 
+    search_query = text
+    url = "https://www.youtube.com/results?search_query=" + search_query
+    req = requests.get(url)
+    content = req.content
+    soup = BeautifulSoup(content, "html.parser")    
+
+    out_times = 0
+
+    for all_mv in soup.select(".yt-lockup-video"):      
+        # 抓取 Title & Link
+        data = all_mv.select("a[rel='spf-prefetch']")
+        if len(data[0].get("href")) < 150:
+            redata[0][out_times] = ("{}".format(data[0].get("title"))) # 影片名
+            redata[1][out_times] = ("https://www.youtube.com{}".format(data[0].get("href"))) # 網址
+            out_times += 1
+            if out_times == 5:
+                break
+    return redata
 
 
 if __name__ == '__main__':
