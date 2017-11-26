@@ -214,6 +214,10 @@ def handle_message(event):
                     label='你問我答',
                     text='你問我答'
                 ),
+                MessageTemplateAction(
+                    label='我想在youtube查音樂~~~!!!',
+                    text='我想在youtube查音樂~~~!!!'
+                ),
                 URITemplateAction(
                     label='放鬆一下',
                     uri='https://www.youtube.com/watch?v=SV-1S98c0UI'
