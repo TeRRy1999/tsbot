@@ -123,7 +123,7 @@ def handle_message(event):
 
 
     if event.message.text == "查作業~":
-        content = "請輸入你的帳號和密碼(以>開頭ex:>s1041509a12345678)帳號密碼需連在一起~\n輸入後需要等待一分鐘登入時間..."
+        content = "請輸入你的帳號和密碼(以>開頭ex:>s1041501a12345678)帳號密碼需連在一起~\n輸入後需要等待一分鐘登入時間..."
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
@@ -190,6 +190,12 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
+    if event.message.text == "我想在youtube查音樂~~~!!!":
+        content = "請輸入想搜尋的歌名並以Y<<作為開頭 ex: Y<<周杰倫"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return 0
     
     
     
@@ -222,6 +228,27 @@ def handle_message(event):
         )
     )
     line_bot_api.reply_message(event.reply_token, buttons_template)
+
+
+def youtube_search(text, redata): 
+    search_query = text
+    url = "https://www.youtube.com/results?search_query=" + search_query
+    req = requests.get(url)
+    content = req.content
+    soup = BeautifulSoup(content, "html.parser")    
+
+    out_times = 0
+
+    for all_mv in soup.select(".yt-lockup-video"):      
+        # 抓取 Title & Link
+        data = all_mv.select("a[rel='spf-prefetch']")
+        if len(data[0].get("href")) < 150:
+            redata[0][out_times] = ("{}".format(data[0].get("title"))) # 影片名
+            redata[1][out_times] = ("https://www.youtube.com{}".format(data[0].get("href"))) # 網址
+            out_times += 1
+            if out_times == 5:
+                break
+    return redata
 
 
 if __name__ == '__main__':
