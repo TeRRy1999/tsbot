@@ -120,6 +120,7 @@ def handle_message(event):
                 TextSendMessage(text=content))
         return 0
 
+
     if event.message.text == "查作業~":
         content = "請輸入你的帳號和密碼(以>開頭ex:>s1041509a12345678)帳號密碼需連在一起~\n輸入後需要等待一分鐘登入時間..."
         line_bot_api.reply_message(
